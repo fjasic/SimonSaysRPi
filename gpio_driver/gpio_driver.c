@@ -419,7 +419,7 @@ static enum hrtimer_restart stopwatch_timer_callback(struct hrtimer *param)
     static char drugiSwitch=1;
     static char treciSwitch=1;
     static char cetvrtiSwitch=1;
-    
+   
 
     if(GetGpioPinValue(GPIO_03)==1)
     if (!stopped) 
@@ -455,9 +455,11 @@ static enum hrtimer_restart stopwatch_timer_callback(struct hrtimer *param)
 
         if(gpio_12_val==0){
         prviSwitch=0;
-        }else{
+        }
+        else
+        {
             prviSwitch=1;
-        };
+        }
         ugaseni=1;
         if(ugaseni==redosledUpaljenih[x])
         {
@@ -473,9 +475,12 @@ static enum hrtimer_restart stopwatch_timer_callback(struct hrtimer *param)
     }
     if (gpio_16_val!=drugiSwitch)
     {
-        if(gpio_16_val==0){
+        if(gpio_16_val==0)
+        {
         drugiSwitch=0;
-        }else{
+        }
+        else
+        {
             drugiSwitch=1;
         }
         ugaseni=2;
@@ -494,7 +499,9 @@ static enum hrtimer_restart stopwatch_timer_callback(struct hrtimer *param)
     {
         if(gpio_20_val==0){
         treciSwitch=0;
-        }else{
+        }
+        else
+        {
             treciSwitch=1;
         }
         ugaseni=3;
@@ -513,7 +520,9 @@ static enum hrtimer_restart stopwatch_timer_callback(struct hrtimer *param)
     {
         if(gpio_21_val==0){
         cetvrtiSwitch=0;
-        }else{
+        }
+        else
+        {
             cetvrtiSwitch=1;
         }
         ugaseni=4;
@@ -532,6 +541,16 @@ static enum hrtimer_restart stopwatch_timer_callback(struct hrtimer *param)
     
     if(istina==false)
     {
+        SetGpioPin(GPIO_06);
+        SetGpioPin(GPIO_13);
+        SetGpioPin(GPIO_19);
+        SetGpioPin(GPIO_26);
+        mdelay(500);
+        ClearGpioPin(GPIO_06);
+        ClearGpioPin(GPIO_13);
+        ClearGpioPin(GPIO_19);
+        ClearGpioPin(GPIO_26);
+        
         finalScore=rezultat;
         rezultat=0;
         stopped=0;
@@ -545,6 +564,7 @@ static enum hrtimer_restart stopwatch_timer_callback(struct hrtimer *param)
         {
         redosledUpaljenih[i]=0;
         }
+        
     }
 
 
@@ -790,7 +810,8 @@ static ssize_t gpio_driver_read(struct file *filp, char *buf, size_t len, loff_t
     int data_size = 0;
     /* Reset memory. */
     memset(gpio_driver_buffer, 0, BUF_LEN);
-    if(kraj==1){
+    if(kraj==1)
+    {
         snprintf(gpio_driver_buffer, BUF_LEN, "FINISHED:%d\n", finalScore);
     }
     
